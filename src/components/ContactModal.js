@@ -99,13 +99,13 @@ RemoveButton.propTypes = {
 
 class ContactModal extends Component {
 
-    static propTypes = { 
-        visible: PropTypes.bool, 
-        mode: PropTypes.oneOf(['create', 'modify']), 
-        name: PropTypes.string, 
-        phone: PropTypes.string, 
-        color: PropTypes.string, 
-        onHide: PropTypes.func, 
+    static propTypes = {
+        visible: PropTypes.bool,
+        mode: PropTypes.oneOf(['create', 'modify']),
+        name: PropTypes.string,
+        phone: PropTypes.string,
+        color: PropTypes.string,
+        onHide: PropTypes.func,
         onAction: PropTypes.func,
         onRemove: PropTypes.func
     }
@@ -120,7 +120,7 @@ class ContactModal extends Component {
 
     render() {
         const { handleChange } = this;
-        const { 
+        const {
             visible,
             mode,
             name,
@@ -130,7 +130,7 @@ class ContactModal extends Component {
             onAction,
             onRemove
         } = this.props;
-        
+
 
         return (
             <Modal visible={visible} onHide={onHide}>
@@ -139,13 +139,13 @@ class ContactModal extends Component {
                     <Thumbnail size="8rem" color={color}/>
                 </ThumbnailWrapper>
                 <Form>
-                    <Input 
+                    <Input
                         name="name"
                         placeholder="이름"
                         value={name}
                         onChange={handleChange}
                     />
-                    <Input 
+                    <Input
                         name="phone"
                         placeholder="전화번호"
                         value={phone}
@@ -157,7 +157,7 @@ class ContactModal extends Component {
                         onClick={onAction}>
                         { mode === 'create' ? '추가' : '수정'}
                     </Button>
-                    <Button 
+                    <Button
                         onClick={onHide}
                         color="gray">
                         취소
