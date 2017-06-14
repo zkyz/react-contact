@@ -1,12 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import oc from 'open-color';
+import React from 'react'
+import styled from 'styled-components'
+import oc from 'open-color'
 
-import StarIcon from 'react-icons/lib/md/star';
-import PeopleIcon from 'react-icons/lib/md/people';
+import StarIcon from 'react-icons/lib/md/star'
+import PeopleIcon from 'react-icons/lib/md/people'
 
-import PropTypes from 'prop-types';
-
+import PropTypes from 'prop-types'
+import {actions} from '../modules/handles'
+import {connect} from 'react-redux'
 
 const Wrapper = styled.div`
     height: 4rem;
@@ -16,14 +17,14 @@ const Wrapper = styled.div`
     /* 하단 핑크색 바 위치 설정을 위해 설정 
        bottom, left 값 설정할때 이 Wrapper 에 의존 */
     position: relative;    
-`;
+`
 
 const ItemContainer = styled.div`
     /* 레이아웃 */
     height: 100%;
     width: 100%;
     display: flex;
-`;
+`
 
 const StyledItem = styled.div`
     /* 레이아웃 */
@@ -48,10 +49,10 @@ const StyledItem = styled.div`
     &:hover {
         background: ${oc.gray[0]};
     }
-`;
+`
 
 StyledItem.propTypes = {
-    active: PropTypes.bool
+	active: PropTypes.bool
 }
 
 const Bar = styled.div`
@@ -69,51 +70,48 @@ const Bar = styled.div`
 
     /* right 값에 따라 우측으로 이동 */
     transform: ${props => props.right ? 'translateX(100%)' : 'none'};
-`;
+`
 
 Bar.propTypes = {
-    right: PropTypes.bool
+	right: PropTypes.bool
 }
 
 // 추후 아이템 컴포넌트에 기능을 달아줄것이기에 컴포넌트 추가생성
 const Item = ({children, selected, name, onSelect}) => (
-    <StyledItem 
-        onClick={() => onSelect(name)}
-        active={name===selected}>
-        {children}
-    </StyledItem>
-);
+	<StyledItem
+		onClick={() => onSelect(name)}
+		active={name === selected}>
+		{children}
+	</StyledItem>
+)
 
 Item.propTypes = {
-    selected: PropTypes.string,
-    name: PropTypes.string,
-    onSelect: PropTypes.func
-};
-
-const ViewSelector = ({selected, onSelect}) => (
-    <Wrapper>
-        <ItemContainer>
-            <Item 
-                selected={selected}
-                name="favorite" 
-                onSelect={onSelect}>
-                <StarIcon/>
-            </Item>
-            <Item 
-                selected={selected} 
-                name="list" 
-                onSelect={onSelect}>
-                <PeopleIcon/>
-            </Item>
-        </ItemContainer>
-        <Bar right={selected==='list'}/>
-    </Wrapper>
-);
-
-ViewSelector.propTypes = {
-    selected: PropTypes.string,
-    onSelect: PropTypes.func
+	selected: PropTypes.string,
+	name:     PropTypes.string,
+	onSelect: PropTypes.func
 }
 
+const ViewSelector = ({selected, onSelect}) => (
+	<Wrapper>
+		<ItemContainer>
+			<Item name="favorite"
+			      selected={selected}
+			      onSelect={onSelect}>
+				<StarIcon/>
+			</Item>
+			<Item name="list"
+			      selected={selected}
+			      onSelect={onSelect}>
+				<PeopleIcon/>
+			</Item>
+		</ItemContainer>
+		<Bar right={selected === 'list'}/>
+	</Wrapper>
+)
 
-export default ViewSelector;
+ViewSelector.propTypes = {
+	selected: PropTypes.string,
+	onSelect: PropTypes.func
+}
+
+export default ViewSelector
