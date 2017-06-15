@@ -6,8 +6,6 @@ import StarIcon from 'react-icons/lib/md/star'
 import PeopleIcon from 'react-icons/lib/md/people'
 
 import PropTypes from 'prop-types'
-import {actions} from '../modules/handles'
-import {connect} from 'react-redux'
 
 const Wrapper = styled.div`
     height: 4rem;

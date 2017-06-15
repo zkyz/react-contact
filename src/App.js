@@ -6,7 +6,6 @@ import ContactListContainer from './containers/ContactListContainer'
 import FavoriteListContainer from './containers/FavoriteListContainer'
 import Input from './components/Input'
 import {connect} from 'react-redux'
-import {actions} from './modules/handles'
 import ViewSelectorContainer from './containers/ViewSelectorContainer'
 
 const App = ({view, search, onSearch}) => (
@@ -29,25 +28,17 @@ const App = ({view, search, onSearch}) => (
 		 onRemove={modalHandler.action.remove}
 		 />
 		 <Dimmed visible={modal.visible}/>*/}
-		<FloatingButton onClick={ console.log('click') }/>
+		<FloatingButton onClick={ () => console.log('click') }/>
 	</div>
 )
 
-
-const mapStateToProps = state => {
-	console.log(state)
-	return ({
-		view:   state.handles.get('view'),
-		search: {
-			keyword: state.handles.getIn(['search', 'keyword'])
-		}
-	})
-}
-
-const mapDispatchToProps = (state, dispatch) => ({
-	onSearch: () => {
-		dispatch(actions.search({}))
+const mapStateToProps = state => ({
+	view:   state.handles.get('view'),
+	search: {
+		keyword: state.handles.getIn(['search', 'keyword'])
 	}
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+const AppContainer = connect(mapStateToProps)(App)
+
+export default AppContainer
