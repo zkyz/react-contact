@@ -32,7 +32,7 @@ class ContactList extends Component {
 		const {contacts, onOpenModify, search, onToggleFavorite} = this.props
 
 		const contactList = contacts
-			.filter(contact => !search || contact.name.indexOf(search))
+			.filter(contact => !(search && contact.name.indexOf(search) > -1))
 			.sort((a, b) => a.name > b.name ? 1 : -1)
 			.map(
 				contact => {

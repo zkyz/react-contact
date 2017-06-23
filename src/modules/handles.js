@@ -1,40 +1,56 @@
-import {createActions, handleActions} from 'redux-actions'
+import {createAction, handleActions} from 'redux-actions'
 import {fromJS, Map} from 'immutable'
 
-const MODAL = {
-	SHOW: 'contacts/MODAL_SHOW',
-	HIDE: 'contacts/MODAL_HIDE'
+const actionNames = {
+	MODAL:       {
+		SHOW:  'contacts/MODAL_SHOW',
+		HIDE:  'contacts/MODAL_HIDE',
+		INPUT: 'contacts/MODAL_INPUT'
+	},
+	SEARCH:      'contacts/SEARCH',
+	CHANGE_VIEW: 'contacts/CHANGE_VIEW'
 }
-const SEARCH = 'contacts/SEARCH'
-const CHANGE_VIEW = 'contacts/CHANGE_VIEW'
 
 export const actions = {
 	modal:      {
-		show: createActions(MODAL.SHOW),
-		hide: createActions(MODAL.HIDE)
+		show:  createAction(actionNames.MODAL.SHOW),
+		hide:  createAction(actionNames.MODAL.HIDE),
+		input: createAction(actionNames.MODAL.INPUT)
 	},
-	search:     createActions(SEARCH),
-	changeView: createActions(CHANGE_VIEW)
+	search:     createAction(actionNames.SEARCH),
+	changeView: createAction(actionNames.CHANGE_VIEW)
 }
 
 export default handleActions({
-		[MODAL.SHOW]:  (state, action) => {
-			state.updateIn(['window', 'visible'], true)
-			state.updateIn(['window', 'data'], action.payload || Map({}))
+		[actionNames.MODAL.SHOW]:  (state, action) => {
+			return state.mergeDeep({
+				window: {
+					visible: true,
+					data:    action.payload || Map({})
+				}
+			})
 		},
-		[MODAL.HIDE]:  state => {
-			state.updateIn(['window', 'visible'], false)
-			state.updateIn(['window', 'data'], Map({}))
+		[actionNames.MODAL.HIDE]:  state => {
+			return state.mergeDeep({
+				window: {
+					visible: false,
+					data:    Map({})
+				}
+			})
 		},
-		[SEARCH]:      (state, action) => {
-			state.updateIn(['search', 'keyword'], action.payload)
+		[actionNames.MODAL.INPUT]: state => {
+			console.log(state.toJS())
+			return state.mergeDeepIn(['window', state.name], state.value)
 		},
-		[CHANGE_VIEW]: (state, action) => {
-			state.update('view', action.payload)
+		[actionNames.SEARCH]:      (state, action) => {
+			return state.updateIn(['search', 'keyword'], keyword => action.payload)
+		},
+		[actionNames.CHANGE_VIEW]: (state, action) => {
+			return state.update('view', view => action.payload)
 		}
 	},
 	fromJS({
-		view:   'favorite',
+		view:   'list',
 		search: {
 			keyword: ''
 		},

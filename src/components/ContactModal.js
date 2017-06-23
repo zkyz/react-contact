@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import oc from 'open-color';
-import Modal from './Modal';
-import Thumbnail from './Thumbnail';
-import Input from './Input';
+import React from 'react'
+import styled from 'styled-components'
+import oc from 'open-color'
+import Modal from './Modal'
+import Thumbnail from './Thumbnail'
+import Input from './Input'
 
-import RemoveIcon from 'react-icons/lib/md/remove-circle';
+import RemoveIcon from 'react-icons/lib/md/remove-circle'
 
-import PropTypes from 'prop-types';
-
+import PropTypes from 'prop-types'
 
 
 const ThumbnailWrapper = styled.div`
@@ -20,7 +19,7 @@ const ThumbnailWrapper = styled.div`
 
     /* 색상 */
     background: white;
-`;
+`
 
 const Form = styled.div`
     /* 레이아웃 */
@@ -28,12 +27,12 @@ const Form = styled.div`
 
     /* 색상 */
     background: ${oc.gray[0]};
-`;
+`
 
 const ButtonsWrapper = styled.div`
     /* 레이아웃 */
     display: flex;
-`;
+`
 
 const Button = styled.div`
     /* 레이아웃 */
@@ -62,11 +61,11 @@ const Button = styled.div`
     &:active {
         background: ${props => oc[props.color][8]};
     }
-`;
+`
 
 Button.propType = {
-    color: PropTypes.string
-};
+	color: PropTypes.string
+}
 
 const RemoveButton = styled.div`
     /* 레이아웃 */
@@ -94,78 +93,34 @@ const RemoveButton = styled.div`
 `
 
 RemoveButton.propTypes = {
-    visible: PropTypes.bool
-};
-
-class ContactModal extends Component {
-
-    static propTypes = {
-        visible: PropTypes.bool,
-        mode: PropTypes.oneOf(['create', 'modify']),
-        name: PropTypes.string,
-        phone: PropTypes.string,
-        color: PropTypes.string,
-        onHide: PropTypes.func,
-        onAction: PropTypes.func,
-        onRemove: PropTypes.func
-    }
-
-    handleChange = (e) => {
-        const { onChange } = this.props;
-        onChange({
-            name: e.target.name,
-            value: e.target.value
-        });
-    }
-
-    render() {
-        const { handleChange } = this;
-        const {
-            visible,
-            mode,
-            name,
-            phone,
-            color,
-            onHide,
-            onAction,
-            onRemove
-        } = this.props;
-
-
-        return (
-            <Modal visible={visible} onHide={onHide}>
-                <ThumbnailWrapper>
-                    <RemoveButton visible={mode==='modify'} onClick={onRemove}><RemoveIcon/></RemoveButton>
-                    <Thumbnail size="8rem" color={color}/>
-                </ThumbnailWrapper>
-                <Form>
-                    <Input
-                        name="name"
-                        placeholder="이름"
-                        value={name}
-                        onChange={handleChange}
-                    />
-                    <Input
-                        name="phone"
-                        placeholder="전화번호"
-                        value={phone}
-                        onChange={handleChange}
-                    />
-                </Form>
-                <ButtonsWrapper>
-                    <Button color="teal"
-                        onClick={onAction}>
-                        { mode === 'create' ? '추가' : '수정'}
-                    </Button>
-                    <Button
-                        onClick={onHide}
-                        color="gray">
-                        취소
-                    </Button>
-                </ButtonsWrapper>
-            </Modal>
-        );
-    }
+	visible: PropTypes.bool
 }
 
-export default ContactModal;
+const ContactModal = ({visible, data, onInput, onAction, onHide, onRemove}) => (
+	<Modal visible={visible} onHide={onHide}>
+		<ThumbnailWrapper>
+			<RemoveButton onClick={onRemove}><RemoveIcon/></RemoveButton>
+			<Thumbnail size="8rem" color={data.color}/>
+		</ThumbnailWrapper>
+		<Form>
+			<Input
+				name="name"
+				placeholder="이름"
+				value={data.name}
+				onChange={onInput}
+			/>
+			<Input
+				name="phone"
+				placeholder="전화번호"
+				value={data.phone}
+				onChange={onInput}
+			/>
+		</Form>
+		<ButtonsWrapper>
+			<Button color="teal" onClick={onAction}>저장</Button>
+			<Button onClick={onHide} color="gray">취소</Button>
+		</ButtonsWrapper>
+	</Modal>
+)
+
+export default ContactModal

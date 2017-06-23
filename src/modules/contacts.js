@@ -61,7 +61,7 @@ export default handleActions({
 		},
 		{
 			'id':       'rJHoq91Cl',
-			'name':     '데이비드',
+			'name':     '데이비드리',
 			'phone':    '010-0000-0004',
 			'color':    '#e64980',
 			'favorite': false

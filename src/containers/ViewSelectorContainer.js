@@ -7,12 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-	onSelect: (name) => {
-		dispatch(actions.changeView(name))
-	}
+	onSelect: name => dispatch(actions.changeView(name))
 })
 
-
-const ViewSelectorContainer = connect(mapStateToProps, mapDispatchToProps)(ViewSelector)
-
-export default ViewSelectorContainer
+export default connect(mapStateToProps, mapDispatchToProps)(ViewSelector)

@@ -7,8 +7,10 @@ import FavoriteListContainer from './containers/FavoriteListContainer'
 import Input from './components/Input'
 import {connect} from 'react-redux'
 import ViewSelectorContainer from './containers/ViewSelectorContainer'
+import {actions} from './modules/handles'
+import ContactModalContainer from './containers/ContactModalContainer'
 
-const App = ({view, search, onSearch}) => (
+const App = ({view, search, onSearch, onAdd}) => (
 	<div>
 		<Header/>
 		<ViewSelectorContainer />
@@ -20,15 +22,9 @@ const App = ({view, search, onSearch}) => (
 			<ContactListContainer />
 		</Container>
 
-		{/*<ContactModal
-		 {...modal}
-		 onHide={modalHandler.hide}
-		 onChange={modalHandler.change}
-		 onAction={modalHandler.action[modal.mode]}
-		 onRemove={modalHandler.action.remove}
-		 />
-		 <Dimmed visible={modal.visible}/>*/}
-		<FloatingButton onClick={ () => console.log('click') }/>
+		<ContactModalContainer />
+
+		<FloatingButton onClick={onAdd}/>
 	</div>
 )
 
@@ -39,6 +35,15 @@ const mapStateToProps = state => ({
 	}
 })
 
-const AppContainer = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch, ownProps) => {
+	return ({
+		onAdd:    () => {
+			dispatch(actions.modal.show())
+		},
+		onSearch: e => {
+			dispatch(actions.search(e.target.value))
+		}
+	})
+}
 
-export default AppContainer
+export default connect(mapStateToProps, mapDispatchToProps)(App)
